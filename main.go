@@ -36,32 +36,16 @@ func main() {
 }
 
 func getWarmUp(e Exercises) WarmUp {
+	var done bool
+	var totalTime int
+	w := WarmUp{}
+
 	rand.Seed(time.Now().UnixNano())
 	rand.Shuffle(len(e), func(i, j int) { e[i], e[j] = e[j], e[i] })
-	totalTime := 0
-	done := false
-	w := WarmUp{}
+
 	w.Name = generateTrainingName()
 	for i := 0; i < len(e); i++ {
-		ex := e[i]
-		exRepts := rand.Intn(ex.MaxRepts-MinReps) + MinReps
-
-		exTime := exRepts * 2
-		if totalTime+exTime > MaxTime {
-			exRepts = (MaxTime - totalTime) / 2
-			if exRepts < MinReps {
-				exRepts = 0
-			}
-			exTime = exRepts * 2
-			done = true
-		}
-
-		if exRepts > 0 {
-			totalTime += exTime
-			exercise := Exercise{Name: ex.Name, MaxRepts: exRepts}
-			w.Exercises = append(w.Exercises, exercise)
-		}
-
+		done, totalTime = prepareExercise(&w, e[i], totalTime)
 		if done == true {
 			break
 		}
@@ -69,6 +53,29 @@ func getWarmUp(e Exercises) WarmUp {
 	w.TotalTime = totalTime
 
 	return w
+}
+
+func prepareExercise(w *WarmUp, ex Exercise, t int) (bool, int) {
+	done := false
+	exRepts := rand.Intn(ex.MaxRepts-MinReps) + MinReps
+
+	exTime := exRepts * 2
+	if t+exTime > MaxTime {
+		exRepts = (MaxTime - t) / 2
+		if exRepts < MinReps {
+			exRepts = 0
+		}
+		exTime = exRepts * 2
+		done = true
+	}
+
+	if exRepts > 0 {
+		t += exTime
+		exercise := Exercise{Name: ex.Name, MaxRepts: exRepts}
+		w.Exercises = append(w.Exercises, exercise)
+	}
+
+	return done, t
 }
 
 func displayWarmUp(w WarmUp) {
