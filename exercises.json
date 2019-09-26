@@ -1,0 +1,34 @@
+[
+    {
+        "name": "Jumping Jacks",
+        "maxRepts": 30
+    },
+    {
+        "name": "Squats",
+        "maxRepts": 20
+    },
+    {
+        "name": "Lunges",
+        "maxRepts": 10
+    },
+    {
+        "name": "Planks",
+        "maxRepts": 10
+    },
+    {
+        "name": "Knees Lift",
+        "maxRepts": 12
+    },
+    {
+        "name": "Side Reach",
+        "maxRepts": 16
+    },
+    {
+        "name": "Sky Jump",
+        "maxRepts": 20
+    },
+    {
+        "name": "Heisman Move",
+        "maxRepts": 30
+    }
+]
